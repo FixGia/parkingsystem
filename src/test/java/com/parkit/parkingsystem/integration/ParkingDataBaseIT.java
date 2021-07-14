@@ -6,10 +6,7 @@ import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,6 +22,7 @@ public class ParkingDataBaseIT {
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
+
 
     @BeforeAll
     private static void setUp() throws Exception{
@@ -51,7 +49,8 @@ public class ParkingDataBaseIT {
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+        Assertions.assertNotNull(ticketDAO.getTicket("ABCDEF"));
+        //TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
     }
 
     @Test
@@ -59,6 +58,9 @@ public class ParkingDataBaseIT {
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
+        Assertions.assertNotEquals(ticketDAO.getTicket("ABCDEF").getOutTime(),ticketDAO.getTicket("ABCDEF").getInTime());
+
+
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
