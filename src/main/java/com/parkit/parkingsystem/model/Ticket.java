@@ -1,6 +1,8 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
+
+import com.parkit.parkingsystem.dao.TicketDAO;
+
 import java.util.Date;
 
 public class Ticket {
@@ -10,6 +12,8 @@ public class Ticket {
     private double price;
     private Date inTime;
     private Date outTime;
+
+
 
     public int getId() {
         return id;
@@ -31,9 +35,11 @@ public class Ticket {
         return vehicleRegNumber;
     }
 
+
     public void setVehicleRegNumber(String vehicleRegNumber) {
         this.vehicleRegNumber = vehicleRegNumber;
     }
+
 
     public double getPrice() {
         return price;
@@ -58,4 +64,7 @@ public class Ticket {
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
     }
-}
+
+
+    }
+
