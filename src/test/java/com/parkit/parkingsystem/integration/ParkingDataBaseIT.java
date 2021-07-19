@@ -57,9 +57,10 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExit() {
+    public void testParkingLotExit() throws InterruptedException {
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        Thread.sleep(1000);
         parkingService.processExitingVehicle();
         Assertions.assertNotEquals(ticketDAO.getTicket("ABCDEF").getOutTime(), ticketDAO.getTicket("ABCDEF").getInTime());
 

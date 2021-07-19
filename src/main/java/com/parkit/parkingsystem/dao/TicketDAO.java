@@ -8,14 +8,12 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 
 public class TicketDAO {
 
     private static final Logger logger = LogManager.getLogger("TicketDAO");
+
 
 
     public static DataBaseConfig dataBaseConfig = new DataBaseConfig();
@@ -88,26 +86,28 @@ public class TicketDAO {
         return false;
     }
 
-    // find vehicleRegNumber in DB //
-    // @param vehicleRegNumber from previous users //
-    // @return true if one vehicleRebNumber find in DB //
-    public boolean findTicket(String vehicleRegNumber) {
+
+    public int VehicleHistory(Ticket ticket) {
         Connection con = null;
+        int numberOfTicket = 0;
         try {
-            con= dataBaseConfig.getConnection();
+            con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.FIND_TICKET);
             ps.setString(1, vehicleRegNumber);
-            ps.execute();
-            return true;
-    } catch (Exception ex) {
-            logger.error("Error find ticket info", ex);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+              numberOfTicket = rs.getInt(1, TOTAL);
+            }
+        } catch (Exception ex) {
+            logger.error("Error count ticket", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
         }
-        return false;
-        }
-
+        return numberOfTicket;
+    }
 }
+
+
 
 
 
