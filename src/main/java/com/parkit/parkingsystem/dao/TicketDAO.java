@@ -91,24 +91,32 @@ public class TicketDAO {
     // find vehicleRegNumber in DB //
     // @param vehicleRegNumber from previous users //
     // @return true if one vehicleRebNumber find in DB //
-
-    public static boolean checkVehicleRegNumber(final String vehicleRegNumber) {
-
-            boolean isRecurrent = false;
-            try (Connection con = dataBaseConfig.getConnection();
-                 PreparedStatement ps = con.prepareStatement(
-                         DBConstants.FIND_TICKET)) {
-                ps.setString(1, vehicleRegNumber);
-                try (ResultSet rs = ps.executeQuery()) {
-                    isRecurrent = rs.next();
-                }
-            } catch (Exception ex) {
-                logger.error("Error checking ticket info", ex);
-            }
-            return isRecurrent;
+    public boolean findTicket(String vehicleRegNumber) {
+        Connection con = null;
+        try {
+            con= dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.FIND_TICKET);
+            ps.setString(1, vehicleRegNumber);
+            ps.execute();
+            return true;
+    } catch (Exception ex) {
+            logger.error("Error find ticket info", ex);
+        } finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return false;
         }
 
-    }
+}
+
+
+
+
+
+
+
+
+
 
 
 
