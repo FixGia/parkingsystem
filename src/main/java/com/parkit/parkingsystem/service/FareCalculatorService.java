@@ -35,9 +35,9 @@ public class FareCalculatorService {
         } else ticket.setPrice(0);
     }
 
-    public void applyReduction(int numberOfTicket, Ticket ticket) {
+    public void applyReduction(int TOTAL, Ticket ticket) {
 
-        if (numberOfTicket > 0 && ticket.getPrice() > 0) {
+        if (TOTAL >= 2 ) {
             ticket.setPrice(ticket.getPrice() - (ticket.getPrice() * 0.05));
             System.out.println("victoire");
         }

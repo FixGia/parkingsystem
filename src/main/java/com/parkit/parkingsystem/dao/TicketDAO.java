@@ -15,8 +15,8 @@ public class TicketDAO {
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
 
-
     public static DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
 
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
@@ -70,6 +70,7 @@ public class TicketDAO {
 
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
+
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
@@ -87,25 +88,35 @@ public class TicketDAO {
     }
 
 
-    public int VehicleHistory(Ticket ticket) {
+    public int VehicleHistory(final String vehicleRegNumber) {
+
         Connection con = null;
-        int numberOfTicket = 0;
+        int TOTAL = 0;
+
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.FIND_TICKET);
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-              numberOfTicket = rs.getInt(1, TOTAL);
-            }
+            if (rs.next())
+                TOTAL = rs.getInt(1);
+
         } catch (Exception ex) {
-            logger.error("Error count ticket", ex);
+            logger.error("Error get number of tickets", ex);
         } finally {
+
             dataBaseConfig.closeConnection(con);
         }
-        return numberOfTicket;
+        return TOTAL;
     }
 }
+
+
+
+
+
+
+
 
 
 
