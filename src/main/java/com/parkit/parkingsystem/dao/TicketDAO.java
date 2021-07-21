@@ -89,10 +89,8 @@ public class TicketDAO {
 
 
     public int VehicleHistory(final String vehicleRegNumber) {
-
         Connection con = null;
         int TOTAL = 0;
-
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.FIND_TICKET);

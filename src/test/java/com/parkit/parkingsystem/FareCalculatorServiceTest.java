@@ -2,7 +2,6 @@ package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
@@ -139,6 +138,18 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
         assertEquals(0, ticket.getPrice());
 
+    }
+    @Test
+    public void calculateFareReductionForRecurrentBike() {
+        Date inTime = new Date();
+        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));//45 minutes parking time should give 3/4th parking fare
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.applyReduction(2,ticket);
+        assertEquals(0.95, ticket.getPrice());
     }
 
 }

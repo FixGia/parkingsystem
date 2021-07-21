@@ -7,19 +7,25 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ParkingServiceTest {
+
 
     private static ParkingService parkingService;
 
@@ -29,6 +35,7 @@ public class ParkingServiceTest {
     private static ParkingSpotDAO parkingSpotDAO;
     @Mock
     private static TicketDAO ticketDAO;
+
 
     @BeforeEach
     private void setUpPerTest() {
@@ -42,10 +49,9 @@ public class ParkingServiceTest {
             ticket.setVehicleRegNumber("ABCDEF");
             when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
             when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
-
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
-
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw  new RuntimeException("Failed to set up test mock objects");
@@ -58,4 +64,77 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
 
+    @Test
+
+    public void processIncomingVehicleCarTestForRecurrentClient() throws Exception {
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
+        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(2);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+
+        parkingService.processIncomingVehicle();
+
+        verify(inputReaderUtil, times(1)).readSelection();
+        verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
+        verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
+        Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+    }
+
+    @Test
+
+    public void processIncomingVehicleBikeTestForRecurrentClient() throws Exception {
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
+        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(2);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+
+        parkingService.processIncomingVehicle();
+
+        verify(inputReaderUtil, times(1)).readSelection();
+        verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
+        verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
+        Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+    }
+
+    @Test
+
+    public void processIncomingVehicleBikeTestForNoneRecurrentClient() throws Exception {
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
+        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(1);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+
+        parkingService.processIncomingVehicle();
+
+        verify(inputReaderUtil, times(1)).readSelection();
+        verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
+        verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
+        Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+    }
+    @Test
+
+    public void processIncomingVehicleCarTestForNoneRecurrentClient() throws Exception {
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
+        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(1);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+
+
+        parkingService.processIncomingVehicle();
+
+        verify(inputReaderUtil, times(1)).readSelection();
+        verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
+        verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
+        Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+
+    }
+    @Test
+
+    public void getVehicleTypeTestForBike() {
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        parkingService.processIncomingVehicle();
+        verify(inputReaderUtil, times(1)).readSelection();
+    }
 }
+
+
