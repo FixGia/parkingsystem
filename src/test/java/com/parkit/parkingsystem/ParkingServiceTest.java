@@ -128,13 +128,7 @@ public class ParkingServiceTest {
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
 
     }
-    @Test
 
-    public void getVehicleTypeTestForBike() {
-        when(inputReaderUtil.readSelection()).thenReturn(2);
-        parkingService.processIncomingVehicle();
-        verify(inputReaderUtil, times(1)).readSelection();
-    }
 }
 
 
