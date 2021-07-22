@@ -35,7 +35,7 @@ public class FareCalculatorService {
         } else ticket.setPrice(0);
     }
 
-    public void applyReduction(int TOTAL, Ticket ticket) {
+    public void applyReduction(int TOTAL, Ticket ticket) { // method apply reduction for recurrent users //
         double price = ticket.getPrice();
         if (TOTAL >= 2 && price > 0 ) {
             ticket.setPrice(price - (price* 0.05));

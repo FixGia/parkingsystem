@@ -112,7 +112,7 @@ public class ParkingService {
             Date outTime = new Date();
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
-            int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber);
+            int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber); // add method to apply reduction //
             fareCalculatorService.applyReduction(TOTAL,ticket);
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
