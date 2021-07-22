@@ -36,10 +36,10 @@ public class FareCalculatorService {
     }
 
     public void applyReduction(int TOTAL, Ticket ticket) {
+        double price = ticket.getPrice();
+        if (TOTAL >= 2 && price > 0 ) {
+            ticket.setPrice(price - (price* 0.05));
 
-        if (TOTAL >= 2 && ticket.getPrice() > 0 ) {
-            ticket.setPrice(ticket.getPrice() - (ticket.getPrice() * 0.05));
-            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
         }
 
     }
