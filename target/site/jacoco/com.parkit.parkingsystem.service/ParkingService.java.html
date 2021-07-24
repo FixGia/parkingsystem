@@ -112,7 +112,7 @@ public class ParkingService {
 <span class="fc" id="L112">            Date outTime = new Date();</span>
 <span class="fc" id="L113">            ticket.setOutTime(outTime);</span>
 <span class="fc" id="L114">            fareCalculatorService.calculateFare(ticket);</span>
-<span class="fc" id="L115">            int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber);</span>
+<span class="fc" id="L115">            int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber); // add method to apply reduction //</span>
 <span class="fc" id="L116">            fareCalculatorService.applyReduction(TOTAL,ticket);</span>
 <span class="pc bpc" id="L117" title="1 of 2 branches missed.">            if(ticketDAO.updateTicket(ticket)) {</span>
 <span class="fc" id="L118">                ParkingSpot parkingSpot = ticket.getParkingSpot();</span>
