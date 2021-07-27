@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class ParkingServiceTest {
 
-
     private static ParkingService parkingService;
 
     @Mock
@@ -72,7 +71,9 @@ public class ParkingServiceTest {
         when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(false);
 
         parkingService.processIncomingVehicle();
+
         verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+
     }
         @Test
 
@@ -88,6 +89,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 2);
     }
 
     @Test
@@ -104,6 +106,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 2);
     }
 
     @Test
@@ -120,6 +123,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 1);
     }
     @Test
 
@@ -136,6 +140,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
+        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 1);
 
     }
 

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
-    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
@@ -28,11 +28,11 @@ public class ParkingDataBaseIT {
 
 
     @BeforeAll
-    private static void setUp() throws Exception {
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
-        ticketDAO.dataBaseConfig = dataBaseTestConfig;
+        TicketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
     }
 
@@ -53,20 +53,33 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         Assertions.assertNotNull(ticketDAO.getTicket("ABCDEF"));
-        //TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
     }
 
     @Test
     public void testParkingLotExit() throws InterruptedException {
-        testParkingACar();
+
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
         Thread.sleep(1000);
         parkingService.processExitingVehicle();
-        Assertions.assertNotEquals(ticketDAO.getTicket("ABCDEF").getOutTime(), ticketDAO.getTicket("ABCDEF").getInTime());
-
-
-        //TODO: check that the fare generated and out time are populated correctly in the database
+        Assertions.assertNotNull(ticketDAO.getTicket("ABCDEF").getOutTime());
     }
 
+    @Test
+
+
+    public void testParkingSpotDAO() throws InterruptedException {
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle(); // parkingSpotDAO.getNextAvailableSlot equals 2 if parkingSpotDAO.getNextAvailableSlot worked //
+        Assertions.assertEquals(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR), 2);
+        Thread.sleep(1000);
+        parkingService.processExitingVehicle(); //parkingSpotDAO.getNextAvailableSlot change if parkingSpotDAO.updateParking worked //
+        Assertions.assertEquals(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR), 1);
+
+
+
+
     }
+}
+
 
