@@ -80,7 +80,7 @@ public class ParkingServiceTest {
     public void processIncomingVehicleCarTestForRecurrentClient() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
-        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(2);
+        when(ticketDAO.vehicleHistory("ABCDEF")).thenReturn(2);
         when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
 
         parkingService.processIncomingVehicle();
@@ -89,7 +89,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
-        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 2);
+        Assertions.assertEquals(ticketDAO.vehicleHistory("ABCDEF"), 2);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ParkingServiceTest {
     public void processIncomingVehicleBikeTestForRecurrentClient() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(2);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
-        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(2);
+        when(ticketDAO.vehicleHistory("ABCDEF")).thenReturn(2);
         when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
 
         parkingService.processIncomingVehicle();
@@ -106,7 +106,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
-        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 2);
+        Assertions.assertEquals(ticketDAO.vehicleHistory("ABCDEF"), 2);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class ParkingServiceTest {
     public void processIncomingVehicleBikeTestForNoneRecurrentClient() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(2);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
-        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(1);
+        when(ticketDAO.vehicleHistory("ABCDEF")).thenReturn(1);
         when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
 
         parkingService.processIncomingVehicle();
@@ -123,14 +123,14 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
-        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 1);
+        Assertions.assertEquals(ticketDAO.vehicleHistory("ABCDEF"), 1);
     }
     @Test
 
     public void processIncomingVehicleCarTestForNoneRecurrentClient() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(8);
-        when(ticketDAO.VehicleHistory("ABCDEF")).thenReturn(1);
+        when(ticketDAO.vehicleHistory("ABCDEF")).thenReturn(1);
         when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
 
 
@@ -140,7 +140,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(inputReaderUtil, times(1)).readVehicleRegistrationNumber();
         Assertions.assertEquals(parkingService.getNextParkingNumberIfAvailable().getId(), 8);
-        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 1);
+        Assertions.assertEquals(ticketDAO.vehicleHistory("ABCDEF"), 1);
 
     }
 

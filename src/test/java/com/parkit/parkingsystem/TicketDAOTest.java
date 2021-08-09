@@ -61,9 +61,9 @@ public class TicketDAOTest {
         ticket.setOutTime(outTime);
 
         ticketDAO.saveTicket(ticket);
-        ticketDAO.VehicleHistory("ABCDEF");
+        ticketDAO.vehicleHistory("ABCDEF");
 
-        Assertions.assertEquals(ticketDAO.VehicleHistory("ABCDEF"), 1);
+        Assertions.assertEquals(ticketDAO.vehicleHistory("ABCDEF"), 1);
     }
 
     @Test 

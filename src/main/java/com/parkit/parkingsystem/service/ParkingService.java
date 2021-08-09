@@ -39,7 +39,7 @@ public class ParkingService {
 
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
-                int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber);
+                int TOTAL = ticketDAO.vehicleHistory(vehicleRegNumber);
                 //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
                 //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
@@ -68,7 +68,7 @@ public class ParkingService {
 
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
-        int parkingNumber=0;
+        int parkingNumber =0 ;
         ParkingSpot parkingSpot = null;
         try{
             ParkingType parkingType = getVehicleType();
@@ -112,7 +112,7 @@ public class ParkingService {
             Date outTime = new Date();
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
-            int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber); // add method to apply reduction //
+            int TOTAL = ticketDAO.vehicleHistory(vehicleRegNumber); // add method to apply reduction //
             fareCalculatorService.applyReduction(TOTAL,ticket);
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();

@@ -39,7 +39,7 @@ public class ParkingService {
 
 <span class="fc" id="L40">                Date inTime = new Date();</span>
 <span class="fc" id="L41">                Ticket ticket = new Ticket();</span>
-<span class="fc" id="L42">                int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber);</span>
+<span class="fc" id="L42">                int TOTAL = ticketDAO.vehicleHistory(vehicleRegNumber);</span>
                 //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
                 //ticket.setId(ticketID);
 <span class="fc" id="L45">                ticket.setParkingSpot(parkingSpot);</span>
@@ -112,7 +112,7 @@ public class ParkingService {
 <span class="fc" id="L112">            Date outTime = new Date();</span>
 <span class="fc" id="L113">            ticket.setOutTime(outTime);</span>
 <span class="fc" id="L114">            fareCalculatorService.calculateFare(ticket);</span>
-<span class="fc" id="L115">            int TOTAL = ticketDAO.VehicleHistory(vehicleRegNumber); // add method to apply reduction //</span>
+<span class="fc" id="L115">            int TOTAL = ticketDAO.vehicleHistory(vehicleRegNumber); // add method to apply reduction //</span>
 <span class="fc" id="L116">            fareCalculatorService.applyReduction(TOTAL,ticket);</span>
 <span class="pc bpc" id="L117" title="1 of 2 branches missed.">            if(ticketDAO.updateTicket(ticket)) {</span>
 <span class="fc" id="L118">                ParkingSpot parkingSpot = ticket.getParkingSpot();</span>
